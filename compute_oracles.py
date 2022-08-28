@@ -52,7 +52,7 @@ def main():
     df.columns = ['Tool', 'Input', 'Examination', 'Verdict']
     df.query("Tool == 'smpt' and (Examination == 'ReachabilityCardinality' or Examination == 'ReachabilityFireability')", inplace=True)
     
-    for input in df['Input']:
+    for input in set(df['Input']):
         for examination in ['ReachabilityCardinality', 'ReachabilityFireability']:
             with open(parser_results.path_oracles + '/{}-{}.out'.format(input, abrev[examination]), 'w') as fp:
                 fp.write("{} {}\n".format(input, examination))
