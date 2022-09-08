@@ -15,7 +15,7 @@ def main():
     """
     path_inputs = "INPUTS-2022/"
     path_oracles = "oracles/"
-    path_summary = "raw_result-analysis.csv"
+    path_summary = "raw-result-analysis.csv"
     path_kinds = "kinds.csv"
 
     abreviation = {'ReachabilityCardinality': 'RC',
