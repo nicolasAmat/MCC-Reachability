@@ -29,7 +29,7 @@ def main():
     parser_results = parser.parse_args()
 
     path_inputs = "INPUTS-2022/"
-    path_summary = "raw_result-analysis.csv"
+    path_summary = "raw-result-analysis.csv"
 
     df = pandas.read_csv(path_summary, usecols=[
                          "### tool", "Input", "Examination", "estimated result"])
