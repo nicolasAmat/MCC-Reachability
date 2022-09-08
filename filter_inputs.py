@@ -48,7 +48,7 @@ def main():
                 "{}/{}/{}.xml".format(path_inputs, input, examination))
 
             root = tree.getroot()
-            for property_xml, verdict in zip(root, verdicts):
+            for property_xml, verdict in zip(list(root), verdicts):
                 _, _, kind = property_xml[2][0].tag.rpartition('}')
 
                 if verdict == "?":
