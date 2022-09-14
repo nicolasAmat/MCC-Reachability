@@ -19,7 +19,7 @@ def main():
     tools = ["smpt", "Tapaal", "ITS-Tools", "GreatSPN"]
 
     df_results = pandas.read_csv(
-        "../raw-result-analysis.csv", usecols=["### tool", "Input", "Examination", "results"])
+        "../raw-result-analysis.csv", usecols=["### tool", "Input", "Examination", "flags:bonus:scores:mask"])
     df_results.columns = ['Tool', 'Input', 'Examination', 'Verdict']
 
     df_methods = pandas.read_csv("summary_methods.csv")
@@ -31,34 +31,6 @@ def main():
     queries = []
     answers = {tool: [] for tool in tools}
 
-    exclude = {
-        "ReachabilityCardinality": ["CSRepetitions-PT-03",
-                                    "CSRepetitions-COL-03",
-                                    "CSRepetitions-PT-04",
-                                    "CSRepetitions-COL-04",
-                                    "SafeBus-PT-20",
-                                    "SafeBus-COL-20",
-                                    "UtilityControlRoom-PT-Z2T4N02",
-                                    "UtilityControlRoom-COL-Z2T4N02",
-                                    "UtilityControlRoom-PT-Z2T4N08",
-                                    "UtilityControlRoom-COL-Z2T4N08",
-                                    "UtilityControlRoom-PT-Z2T4N10",
-                                    "UtilityControlRoom-COL-Z2T4N10",
-                                    "UtilityControlRoom-PT-Z4T3N06",
-                                    "UtilityControlRoom-COL-Z4T3N06",
-                                    "UtilityControlRoom-PT-Z4T4N06",
-                                    "UtilityControlRoom-COL-Z4T4N06"],
-        "ReachabilityFireability": ["PermAdmissibility-PT-01",
-                                    "PermAdmissibility-COL-01",
-                                    "PermAdmissibility-PT-02",
-                                    "PermAdmissibility-COL-02",
-                                    "UtilityControlRoom-PT-Z2T3N10",
-                                    "UtilityControlRoom-COL-Z2T3N10",
-                                    "UtilityControlRoom-PT-Z2T4N04",
-                                    "UtilityControlRoom-COL-Z2T4N04",
-                                    "UtilityControlRoom-PT-Z2T4N06",
-                                    "UtilityControlRoom-COL-Z2T4N06"]
-    }
 
     print("Retrieve data...")
     with alive_bar(len(set(df_results['Input']))) as bar:
@@ -67,20 +39,19 @@ def main():
 
             for examination in ['ReachabilityCardinality', 'ReachabilityFireability']:
 
-                if input in exclude[examination]:
-                    continue
-
                 queries += ["{}-{}-{:02d}".format(input, examination, index)
                             for index in range(16)]
 
                 for tool in tools:
                     verdicts = df_results.query('Tool == "{}" and Input == "{}" and Examination == "{}"'.format(
-                        tool, input, examination)).iloc[0]['Verdict']
+                        tool, input, examination)).iloc[0]['Verdict'].split(":")[-1]
 
-                    if verdicts in ["DNF", "DNC", "CC"]:
+                    if len(verdicts) == 1:
                         answers[tool] += [False for _ in range(16)]
                     else:
-                        answers[tool] += [verdict in ["T", "F"]
+                        if len(verdicts) != 16:
+                            raise ValueError
+                        answers[tool] += [verdict == "T"
                                           for verdict in verdicts]
             bar()
 
