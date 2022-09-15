@@ -3,3 +3,6 @@ oracles/
 smpt/smpt/
 kinds.csv
 raw-result-analysis.csv
+full_runs/runs/
+full_runs/initial_states.csv
+
