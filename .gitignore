@@ -1,8 +1,8 @@
 INPUTS-2022/
 oracles/
-smpt/smpt/
 kinds.csv
 raw-result-analysis.csv
 raw_runs/runs/
+raw_runs/summary_methods.csv
 raw_runs/initial_states.csv
 

@@ -14,7 +14,7 @@ def main():
     """
     with open('initial_states.csv', 'w') as fp_csv:
         writer = csv.writer(fp_csv)
-        writer.writerow("INPUT,FORMULA")
+        writer.writerow('INPUT', 'FORMULA')
 
         for examination in ['ReachabilityCardinality', 'ReachabilityFireability']:
             for path in glob.iglob('runs/**/BK_RESULTS/OUTPUTS/itstools_*_{}_*.stdout'.format(examination), recursive=True):

@@ -1,8 +1,8 @@
 # Oracles and Report for the Reachability category of the Model Checking Contest 
 
 This repository includes scripts to generate oracles for the 2022 edition of the
-Model Checking Contest for the Reachability category. The `smpt/` subdirectory
-also includes scripts to run a 2022 edition report.
+Model Checking Contest for the Reachability category.  
+The `raw_runs/` subdirectory also includes scripts to compute a 2022 edition report.
 
 ## Usage
 
@@ -22,28 +22,52 @@ $> ./get_summary.sh
 
 ### Oracles
 
-After installing the inputs, you can compute the oracles from the MCC by running:
+After installing the inputs, you can compute the oracles from the MCC by running
+(it will automatically generates the `oracle/` sub-directory):
 ```
 $> ./compute_oracles.py
 ```
 
 ### Filter instances
 
-You can also filter the formulas that are found using some counterexamples (EF F
+You can also filter the formulas that are computed using some counterexamples (EF F
 true or AG F false), or by proving an invariant (AG F true or EF F false) by running:
 ```
-$> ./filter_inputs.sh [--cex | --inv]
+$> ./filter_inputs.sh [--cex | --inv] [--exclude-initial-states]
 ```
 It will generates new ReachabilityCardinality and ReachabilityFireability files
 suffixed with `_CEX.xml` or `_INV.xml`. 
 
+The `--exclude-initial-states` option permits to excludes trivial properties for
+which the initial states is already a counterexample (you need to compute the
+`initial_states.csv` file, see after).
+
 ### MCC 2022 report
 
-To get a report on the MCC 2022 and to also get the methods used by SMPT to
-compute the queries, go to the `smpt/` directory (`cd smpt/`).
+To obtain a report on the MCC 2022 and the methods used by SMPT to compute the
+queries, go to the `raw_runs/` directory (`cd raw_runs/`).
 
-Next, run:
-`./get_methods.py` followed by `./resume.py`.
+To download the raw data from the MCC 2022 run:
+```
+$> ./install_runs.sh
+```
+
+To obtain the methods used by SMPT to compute the queries run (it will
+automatically generates the `summary_methods.csv` file):
+```
+$> ./get_methods.py
+```
+
+To obtain the queries that are computed by only checking the initial state runs
+(it will automatically generates the `summary_methods.csv` file):
+```
+$> ./get_initial_states.py
+```
+
+To obtain a report on the MCC 2022 for the Reachability category run:
+```
+$> ./resume.py
+```
 
 After some time of computation you will obtain some data from the MCC that
 compare the different tools competing in the reachability category.

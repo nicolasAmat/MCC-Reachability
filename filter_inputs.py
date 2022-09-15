@@ -26,17 +26,26 @@ def main():
                        action='store_true',
                        help="Filter invariants")
 
+    parser.add_argument('--exclude-initial-states',
+                       action='store_true',
+                       help="Exclude initial state verdicts")
+
     parser_results = parser.parse_args()
 
     path_inputs = "INPUTS-2022/"
     path_summary = "raw-result-analysis.csv"
+    path_initial_states = "raw_runs/initial_states.csv"
 
     df = pandas.read_csv(path_summary, usecols=[
                          "### tool", "Input", "Examination", "estimated result"])
     df.columns = ['Tool', 'Input', 'Examination', 'Verdict']
     df.query("Tool == 'smpt' and (Examination == 'ReachabilityCardinality' or Examination == 'ReachabilityFireability')", inplace=True)
 
-    kinds = []
+    if parser_results.exclude_initial_states:
+        df_initial_states = pandas.read_csv(path_initial_states)
+        df_initial_states.columns = ['Input', 'Formula']
+    else:    
+        df_initial_states = None
 
     for input in set(df['Input']):
         for examination in ['ReachabilityCardinality', 'ReachabilityFireability']:
@@ -49,6 +58,7 @@ def main():
 
             root = tree.getroot()
             for property_xml, verdict in zip(list(root), verdicts):
+                formula = property_xml[0].text
                 _, _, kind = property_xml[2][0].tag.rpartition('}')
 
                 if verdict == "?":
@@ -58,7 +68,8 @@ def main():
                 elif (kind == "exists-path" and verdict == "T") or (kind == "all-paths" and verdict == "F"):
                     if parser_results.inv:
                         root.remove(property_xml)
-
+                    if parser_results.exclude_initial_states and (df_initial_states['Formula'] == formula).any():
+                        root.remove(property_xml)
                 else:
                     if parser_results.cex:
                         root.remove(property_xml)
