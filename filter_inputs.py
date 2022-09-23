@@ -26,9 +26,9 @@ def main():
                        action='store_true',
                        help="Filter invariants")
 
-    parser.add_argument('--exclude-initial-states',
+    parser.add_argument('--exclude',
                        action='store_true',
-                       help="Exclude initial state verdicts")
+                       help="Path to excluded properties (.csv format)")
 
     parser_results = parser.parse_args()
 
@@ -68,10 +68,12 @@ def main():
                 elif (kind == "exists-path" and verdict == "T") or (kind == "all-paths" and verdict == "F"):
                     if parser_results.inv:
                         root.remove(property_xml)
-                    if parser_results.exclude_initial_states and (df_initial_states['Formula'] == formula).any():
+                    elif parser_results.exclude and (df_initial_states['Formula'] == formula).any():
                         root.remove(property_xml)
                 else:
                     if parser_results.cex:
+                        root.remove(property_xml)
+                    elif parser_results.exclude and (df_initial_states['Formula'] == formula).any():
                         root.remove(property_xml)
 
             if parser_results.cex:
