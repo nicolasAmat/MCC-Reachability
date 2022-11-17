@@ -3,7 +3,7 @@
 # Script to install the models and formulas from the Model Checking Contest 2022
 
 
-wget --no-check-certificate --progress=dot:mega https://mcc.lip6.fr/archives/INPUTS-2022.tar.gz
+wget --no-check-certificate --progress=dot:mega https://mcc.lip6.fr/2022/archives/INPUTS-2022.tar.gz
 tar -xvf INPUTS-2022.tar.gz
 rm -v INPUTS-2022.tar.gz
 
