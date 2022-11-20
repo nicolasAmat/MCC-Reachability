@@ -6,7 +6,6 @@
 from itertools import chain, combinations
 
 import pandas
-from alive_progress import alive_bar
 
 
 def powerset(tools):
@@ -30,27 +29,24 @@ def main():
 
 
     print("Retrieve data...")
-    with alive_bar(len(set(df_results['Input']))) as bar:
+    for input in set(df_results['Input']):
 
-        for input in set(df_results['Input']):
+        for examination in ['ReachabilityCardinality', 'ReachabilityFireability']:
 
-            for examination in ['ReachabilityCardinality', 'ReachabilityFireability']:
+            queries += ["{}-{}-{:02d}".format(input, examination, index)
+                        for index in range(16)]
 
-                queries += ["{}-{}-{:02d}".format(input, examination, index)
-                            for index in range(16)]
+            for tool in tools:
+                verdicts = df_results.query('Tool == "{}" and Input == "{}" and Examination == "{}"'.format(
+                    tool, input, examination)).iloc[0]['Verdict'].split(":")[-1]
 
-                for tool in tools:
-                    verdicts = df_results.query('Tool == "{}" and Input == "{}" and Examination == "{}"'.format(
-                        tool, input, examination)).iloc[0]['Verdict'].split(":")[-1]
-
-                    if len(verdicts) == 1:
-                        answers[tool] += [False for _ in range(16)]
-                    else:
-                        if len(verdicts) != 16:
-                            raise ValueError
-                        answers[tool] += [verdict == "T"
-                                          for verdict in verdicts]
-            bar()
+                if len(verdicts) == 1:
+                    answers[tool] += [False for _ in range(16)]
+                else:
+                    if len(verdicts) != 16:
+                        raise ValueError
+                    answers[tool] += [verdict == "T"
+                                        for verdict in verdicts]
 
     print("Compute summary...")
 
