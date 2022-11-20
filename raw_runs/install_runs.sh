@@ -9,8 +9,8 @@ cd runs
 
 tar xf MCC-2022-raw-data.tar.gz
 rm MCC-2022-raw-data.tar.gz
-rm */BK_RESULTS/CSV
-rm */BK_RESULTS/CONFIGURATIONS
+rm -r */BK_RESULTS/CSV
+rm -r */BK_RESULTS/CONFIGURATIONS
 
 cd ..
 
