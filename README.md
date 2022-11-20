@@ -25,7 +25,7 @@ $ ./get_summary.sh
 After installing the inputs, you can compute the oracles from the MCC by running
 (it will automatically generates the `oracle/` sub-directory):
 ```
-$ ./compute_oracles.py
+$ ./compute_oracles.py raw-result-analysis.csv INPUTS-2022 oracles
 ```
 
 ### Filter instances
