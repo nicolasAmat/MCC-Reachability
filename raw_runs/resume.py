@@ -22,9 +22,6 @@ def main():
         "../raw-result-analysis.csv", usecols=["### tool", "Input", "Examination", "flags:bonus:scores:mask"])
     df_results.columns = ['Tool', 'Input', 'Examination', 'Verdict']
 
-    df_methods = pandas.read_csv("summary_methods.csv")
-    df_methods.columns = ['Input', 'Formula', 'Method']
-
     df_kinds = pandas.read_csv("../kinds.csv")
     df_kinds.columns = ['Input', 'Formula', 'Kind']
 
@@ -91,29 +88,6 @@ def main():
             print('> Only', ' & '.join(combo) + ':', sum(combo_answers))
             kinds = pandas.Series(kinds).value_counts()
             print(kinds)
-
-    print(">>>")
-
-    print("All smpt methods")
-
-    formulas = [formula for formula, verdict in zip(
-        queries, answers["smpt"]) if verdict]
-    methods = [df_methods.query('Formula == "{}"'.format(
-        formula)).iloc[0]['Method'] for formula in formulas]
-    counts = pandas.Series(methods).value_counts()
-    print(counts)
-
-    print(">>>")
-
-    print("Only smpt methods")
-
-    only_smpt = [a & (not any(i)) for a, i in zip(answers["smpt"], zip(
-        *[answers[other_tool] for other_tool in tools if other_tool != "smpt"]))]
-    formulas = [formula for formula, only in zip(queries, only_smpt) if only]
-    methods = [df_methods.query('Formula == "{}"'.format(
-        formula)).iloc[0]['Method'] for formula in formulas]
-    counts = pandas.Series(methods).value_counts()
-    print(counts)
 
     print(">>>")
 
