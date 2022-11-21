@@ -1,8 +1,8 @@
 # Oracles and Report for the Reachability category of the Model Checking Contest 
 
-This repository includes scripts to generate oracles for the 2022 edition of the
-Model Checking Contest for the Reachability category.  
-The `raw_runs/` subdirectory also includes scripts to compute a 2022 edition report.
+This repository includes scripts to generate oracles and analyze the results of
+the 2022 edition of the Model Checking Contest for the Reachability category.
+
 
 ## Usage
 
