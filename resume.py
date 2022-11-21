@@ -18,10 +18,10 @@ def main():
     tools = ["smpt", "Tapaal", "ITS-Tools", "GreatSPN"]
 
     df_results = pandas.read_csv(
-        "../raw-result-analysis.csv", usecols=["### tool", "Input", "Examination", "flags:bonus:scores:mask"])
+        "raw-result-analysis.csv", usecols=["### tool", "Input", "Examination", "flags:bonus:scores:mask"])
     df_results.columns = ['Tool', 'Input', 'Examination', 'Verdict']
 
-    df_kinds = pandas.read_csv("../kinds.csv")
+    df_kinds = pandas.read_csv("kinds.csv")
     df_kinds.columns = ['Input', 'Formula', 'Kind']
 
     queries = []

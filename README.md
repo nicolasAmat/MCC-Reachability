@@ -45,7 +45,15 @@ raw_runs/initial_states.csv`.
 
 ### MCC 2022 report
 
-To obtain a report on the MCC 2022 and the methods used by SMPT to compute the
+To obtain a report on the MCC 2022 for the Reachability category run:
+```
+$ ./resume.py
+```
+
+After some time of computation you will obtain some data from the MCC that
+compare the different tools competing in the reachability category.
+
+To obtain more data on the MCC 2022 and the methods used by SMPT to compute the
 queries, go to the `raw_runs/` directory (`cd raw_runs/`).
 
 To download the raw data from the MCC 2022 run:
@@ -64,11 +72,3 @@ To obtain the queries that are computed by only checking the initial state runs
 ```
 $ ./get_initial_states.py
 ```
-
-To obtain a report on the MCC 2022 for the Reachability category run:
-```
-$ ./resume.py
-```
-
-After some time of computation you will obtain some data from the MCC that
-compare the different tools competing in the reachability category.
